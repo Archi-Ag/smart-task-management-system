@@ -1,0 +1,23 @@
+# PATCH http://localhost:5000/api/tasks/6a7cb1ab1893ee7fbea94d70/status
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2YTdiZmNlNTFlYTZmYzRhMWQ2MmExMTAiLCJpYXQiOjE3ODY2MDUyMjEsImV4cCI6MTc4NzIxMDAyMX0.nslbn2ij4ByPQGQ2bMJk0B5lPrk8goFl4G8THXJUaj8
+
+# PATCH http://localhost:5000/api/tasks/6a7cb1ab1893ee7fbea94d70/status
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2YTdjNmYwNTcxM2JlZDVjZTc1MDgyOGUiLCJpYXQiOjE3ODY2MDU5NTIsImV4cCI6MTc4NzIxMDc1Mn0.OjdbJ_beMnzBS1cXxtxylw09COXGxy2lHSZZDV2b4Hk
+
+# POST http://localhost:5000/api/auth/login
+# Content-Type: application/json
+
+# {
+#     # "name" : "Archi"
+#     "email": "archi.agrawal@adrosonic.com",
+#     "password" : "123456"
+# }
+
+
+# eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2YTdjNmYwNTcxM2JlZDVjZTc1MDgyOGUiLCJpYXQiOjE3ODY2MDU5NTIsImV4cCI6MTc4NzIxMDc1Mn0.OjdbJ_beMnzBS1cXxtxylw09COXGxy2lHSZZDV2b4Hk
+
+GET http://localhost:5000/api/tasks/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2YTdjNmYwNTcxM2JlZDVjZTc1MDgyOGUiLCJpYXQiOjE3ODY2MDU5NTIsImV4cCI6MTc4NzIxMDc1Mn0.OjdbJ_beMnzBS1cXxtxylw09COXGxy2lHSZZDV2b4Hk
+
+
