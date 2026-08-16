@@ -57,7 +57,9 @@ const toggleSubtask = async (req, res) => {
       });
     }
 
-    const subtask = task.subtasks.id(req.params.subtaskId);
+    const subtask = task.subtasks.id(
+      req.params.subtaskId
+    );
 
     if (!subtask) {
       return res.status(404).json({
@@ -65,7 +67,25 @@ const toggleSubtask = async (req, res) => {
       });
     }
 
+    // Toggle the selected subtask
     subtask.completed = !subtask.completed;
+
+    // ==========================================
+    // AUTO-COMPLETE PARENT TASK
+    // ==========================================
+
+    if (task.subtasks.length > 0) {
+      const allSubtasksCompleted =
+        task.subtasks.every(
+          (item) => item.completed === true
+        );
+
+      if (allSubtasksCompleted) {
+        task.status = "Completed";
+      } else {
+        task.status = "Pending";
+      }
+    }
 
     await task.save();
 
@@ -74,14 +94,17 @@ const toggleSubtask = async (req, res) => {
       task
     });
   } catch (error) {
-    console.error("Toggle subtask error:", error);
+    console.error(
+      "Toggle subtask error:",
+      error
+    );
 
     res.status(500).json({
-      message: "Server error while updating subtask"
+      message:
+        "Server error while updating subtask status"
     });
   }
 };
-
 
 // Delete a subtask
 const deleteSubtask = async (req, res) => {

@@ -152,11 +152,20 @@ const updateTask = async (req, res) => {
 
     task.title = title ?? task.title;
     task.description = description ?? task.description;
+    
     if (status !== undefined) {
   const statusChanged =
     status !== task.status;
 
   task.status = status;
+
+  // If parent task is completed,
+  // mark all subtasks as completed
+  if (status === "Completed") {
+    task.subtasks.forEach((subtask) => {
+      subtask.completed = true;
+    });
+  }
 
   if (
     statusChanged &&
@@ -248,8 +257,19 @@ const toggleTaskStatus = async (req, res) => {
       });
     }
 
+    // Toggle parent task status
     task.status =
-      task.status === "Completed" ? "Pending" : "Completed";
+      task.status === "Completed"
+        ? "Pending"
+        : "Completed";
+
+    // If parent task is completed,
+    // mark ALL subtasks as completed
+    if (task.status === "Completed") {
+      task.subtasks.forEach((subtask) => {
+        subtask.completed = true;
+      });
+    }
 
     const updatedTask = await task.save();
 
@@ -258,10 +278,14 @@ const toggleTaskStatus = async (req, res) => {
       task: updatedTask
     });
   } catch (error) {
-    console.error("Toggle status error:", error);
+    console.error(
+      "Toggle status error:",
+      error
+    );
 
     res.status(500).json({
-      message: "Server error while updating task status"
+      message:
+        "Server error while updating task status"
     });
   }
 };
