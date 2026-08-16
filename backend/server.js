@@ -28,8 +28,9 @@ const app = express();
 app.use(cors({
   origin: [
     "https://glowing-space-waddle-qv9wq6j7v5p6f4474-5173.app.github.dev",
-    "https://glowing-space-waddle-qv9wq6j7v5p6f4474-5174.app.github.dev"
-  ],
+    "https://glowing-space-waddle-qv9wq6j7v5p6f4474-5174.app.github.dev",
+    process.env.FRONTEND_URL
+  ].filter(Boolean),
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
@@ -62,7 +63,7 @@ app.get("/", (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server running on port ${PORT}`);
 
   startReminderScheduler();
