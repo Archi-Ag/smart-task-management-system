@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://glowing-space-waddle-qv9wq6j7v5p6f4474-5000.app.github.dev/api"
+  baseURL: "https://smart-task-management-api-v9fl.onrender.com/api"
 });
 
 api.interceptors.request.use(
