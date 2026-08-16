@@ -1,7 +1,5 @@
 import { useState } from "react";
-
-const API_URL =
-  "https://reimagined-sniffle-x5w4v6xxppgj36wqx-5000.app.github.dev";
+import api from "../../services/api";
 
 function CreateTaskForm({
   newTask,
@@ -9,8 +7,6 @@ function CreateTaskForm({
   handleCreateTask,
   onCancel,
 }) {
-  const token = localStorage.getItem("token");
-
   const [aiPrompt, setAiPrompt] = useState("");
   const [aiLoading, setAiLoading] = useState(false);
   const [aiError, setAiError] = useState("");
@@ -25,27 +21,11 @@ function CreateTaskForm({
     setAiError("");
 
     try {
-      const response = await fetch(
-        `${API_URL}/api/ai/generate`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            prompt: aiPrompt,
-          }),
-        }
-      );
+      const response = await api.post("/ai/generate", {
+        prompt: aiPrompt,
+      });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(
-          data.message || "Failed to generate task"
-        );
-      }
+      const data = response.data;
 
       const generatedTask = data.task;
 

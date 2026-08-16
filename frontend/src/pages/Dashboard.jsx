@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "../styles/dashboard.css";
+import api from "../services/api";
 
 import DashboardHeader from "../components/dashboard/DashboardHeader";
 import SearchFilter from "../components/dashboard/SearchFilter";
@@ -7,13 +8,11 @@ import CreateTaskForm from "../components/dashboard/CreateTaskForm";
 import TaskCard from "../components/dashboard/TaskCard";
 import EditTaskForm from "../components/dashboard/EditTaskForm";
 import TaskStats from "../components/dashboard/TaskStats";
-
-const API_URL =
-  "https://reimagined-sniffle-x5w4v6xxppgj36wqx-5000.app.github.dev";
+import ReminderSettings from "../components/dashboard/ReminderSettings";
+import AISummary from "../components/dashboard/AISummary";
 
 function Dashboard() {
   const user = JSON.parse(localStorage.getItem("user"));
-  const token = localStorage.getItem("token");
 
   // =========================
   // TASK STATE
@@ -75,18 +74,8 @@ function Dashboard() {
       setLoading(true);
       setError("");
 
-      const response = await fetch(`${API_URL}/api/tasks`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Failed to load tasks");
-      }
+      const response = await api.get("/tasks");
+const data = response.data;
 
       setTasks(
         Array.isArray(data)
@@ -97,8 +86,12 @@ function Dashboard() {
       );
     } catch (error) {
       console.error("Fetch tasks error:", error);
-      setError(error.message || "Failed to load tasks");
-    } finally {
+      setError(
+            error.response?.data?.message ||
+            error.message ||
+            "Failed to load tasks"
+          );
+      } finally {
       setLoading(false);
     }
   };
@@ -136,26 +129,16 @@ function Dashboard() {
     }
 
     try {
-      const response = await fetch(`${API_URL}/api/tasks`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          title: newTask.title,
-          description: newTask.description,
-          priority: newTask.priority,
-          category: newTask.category,
-          dueDate: newTask.dueDate || null,
-        }),
-      });
+      const response = await api.post("/tasks", {
+  title: newTask.title,
+  description: newTask.description,
+  priority: newTask.priority,
+  category: newTask.category,
+  dueDate: newTask.dueDate || null,
+  dueTime: newTask.dueTime || null,
+});
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Failed to create task");
-      }
+const data = response.data;
 
       const createdTask = data.task || data;
 
@@ -172,6 +155,7 @@ function Dashboard() {
         priority: "Medium",
         category: "Work",
         dueDate: "",
+  dueTime: ""
       });
 
       // Close form
@@ -198,20 +182,10 @@ function Dashboard() {
     setSuccess("");
 
     try {
-      const response = await fetch(`${API_URL}/api/tasks/${taskId}/status`, {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await api.patch(`/tasks/${taskId}/status`);
+const data = response.data;
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Failed to update task status");
-      }
-
-      const updatedTask = data.task || data;
+const updatedTask = data.task || data;
 
       setTasks((previousTasks) => {
         const currentTasks = Array.isArray(previousTasks) ? previousTasks : [];
@@ -242,18 +216,8 @@ function Dashboard() {
     setSuccess("");
 
     try {
-      const response = await fetch(`${API_URL}/api/tasks/${taskId}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Failed to delete task");
-      }
+      const response = await api.delete(`/tasks/${taskId}`);
+const data = response.data;
 
       setTasks((previousTasks) => {
         const currentTasks = Array.isArray(previousTasks) ? previousTasks : [];
@@ -324,27 +288,19 @@ function Dashboard() {
     }
 
     try {
-      const response = await fetch(`${API_URL}/api/tasks/${editingTaskId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          title: editTask.title,
-          description: editTask.description,
-          priority: editTask.priority,
-          category: editTask.category,
-          dueDate: editTask.dueDate || null,
-        }),
-      });
+      const response = await api.put(
+  `/tasks/${editingTaskId}`,
+  {
+    title: editTask.title,
+    description: editTask.description,
+    priority: editTask.priority,
+    category: editTask.category,
+    dueDate: editTask.dueDate || null,
+    dueTime: editTask.dueTime || null,
+  }
+);
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Failed to update task");
-      }
-
+const data = response.data;
       const updatedTask = data.task || data;
 
       setTasks((previousTasks) => {
@@ -390,10 +346,10 @@ function Dashboard() {
       task.category?.toLowerCase().includes(search);
 
     const matchesStatus =
-      statusFilter === "all" ||
-      (statusFilter === "completed" && task.status) ||
-      (statusFilter === "pending" && !task.status);
-
+  statusFilter === "all" ||
+  (statusFilter === "completed" && task.status === "Completed") ||
+  (statusFilter === "pending" && task.status === "Pending");
+  
     return matchesSearch && matchesStatus;
   });
 
@@ -417,6 +373,10 @@ function Dashboard() {
         />
 
         <TaskStats tasks={tasks} />
+
+        <AISummary />
+
+        <ReminderSettings />
 
         {/* SEARCH & FILTER */}
 
@@ -503,6 +463,15 @@ function Dashboard() {
                   onToggle={handleToggleTask}
                   onEdit={startEditingTask}
                   onDelete={handleDeleteTask}
+                  onTaskUpdated={(updatedTask) => {
+    setTasks((currentTasks) =>
+      currentTasks.map((currentTask) =>
+        currentTask._id === updatedTask._id
+          ? updatedTask
+          : currentTask
+      )
+    );
+  }}
                 />
               )}
             </div>

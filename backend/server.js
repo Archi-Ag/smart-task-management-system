@@ -8,6 +8,9 @@ const authRoutes = require("./routes/authRoutes");
 const taskRoutes = require("./routes/taskRoutes");
 const aiRoutes = require("./routes/aiRoutes");
 const emailRoutes = require("./routes/emailRoutes");
+const subtaskRoutes = require("./routes/subtaskRoutes");
+const userRoutes = require("./routes/userRoutes");
+
 const {
   startReminderScheduler,
 } = require("./services/reminderScheduler");
@@ -24,9 +27,9 @@ const app = express();
 // ===============================
 app.use(cors({
   origin: [
-      "https://reimagined-sniffle-x5w4v6xxppgj36wqx-5173.app.github.dev",
-      "https://reimagined-sniffle-x5w4v6xxppgj36wqx-5174.app.github.dev"
-    ],
+    "https://glowing-space-waddle-qv9wq6j7v5p6f4474-5173.app.github.dev",
+    "https://glowing-space-waddle-qv9wq6j7v5p6f4474-5174.app.github.dev"
+  ],
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
@@ -44,6 +47,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/ai", aiRoutes);
 app.use("/api/email", emailRoutes);
+app.use("/api/subtasks", subtaskRoutes);
+app.use("/api/users", userRoutes);
 
 // ===============================
 // ROOT

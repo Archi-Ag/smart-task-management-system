@@ -155,6 +155,90 @@ Rules:
   }
 };
 
+const generateTaskSummary = async (req, res) => {
+  try {
+    const Task = require("../models/Task");
+
+    const tasks = await Task.find({
+      user: req.user.userId
+    }).select(
+      "title description status priority category dueDate dueTime"
+    );
+
+    if (tasks.length === 0) {
+      return res.status(200).json({
+        message: "No tasks available for summary",
+        summary: "You currently have no tasks. Great time to add your first task!"
+      });
+    }
+
+    const taskData = tasks.map((task) => ({
+      title: task.title,
+      description: task.description || "",
+      status: task.status,
+      priority: task.priority || "Medium",
+      category: task.category || "General",
+      dueDate: task.dueDate
+        ? task.dueDate.toISOString().split("T")[0]
+        : null,
+      dueTime: task.dueTime || null
+    }));
+
+    const completion = await groq.chat.completions.create({
+      model: "openai/gpt-oss-20b",
+      messages: [
+        {
+          role: "system",
+          content: `
+You are an AI task management assistant.
+
+Analyze the user's task list and provide a concise,
+useful productivity summary.
+
+Mention:
+- Overall task situation
+- Tasks that are due soon or overdue
+- Important categories or workload patterns
+- A short actionable recommendation
+
+Do not invent information.
+Use only the supplied task data.
+
+Return ONLY plain text.
+Do not use JSON.
+Do not use markdown headings.
+Keep the response concise and easy to read.
+`
+        },
+        {
+          role: "user",
+          content: JSON.stringify(taskData)
+        }
+      ],
+      temperature: 0.3
+    });
+
+    const summary =
+      completion.choices[0].message.content.trim();
+
+    res.status(200).json({
+      message: "AI summary generated successfully",
+      summary
+    });
+
+  } catch (error) {
+    console.error(
+      "AI task summary error:",
+      error
+    );
+
+    res.status(500).json({
+      message: "Failed to generate AI task summary"
+    });
+  }
+};
+
 module.exports = {
-  generateTask
+  generateTask,
+  generateTaskSummary
 };
