@@ -1,0 +1,54 @@
+---
+title: Smart Task Management System Architecture
+---
+flowchart TB
+    U["User / Browser"]
+
+    subgraph FE["Frontend - React / Vite - Vercel"]
+        UI["Pages & Components"]
+        ROUTER["React Router"]
+        API["Axios API Client"]
+        THEME["Theme & UI State"]
+    end
+
+    subgraph BE["Backend - Node.js / Express - Render"]
+        SERVER["Express Server"]
+        CORS["CORS + JSON Middleware"]
+        AUTH["JWT Authentication<br/>bcrypt Password Hashing"]
+        ROUTES["REST Routes"]
+        TASK["Task Controller"]
+        SUB["Subtask Controller"]
+        AI["AI Controller / Service"]
+        EMAIL["Email Routes / Nodemailer"]
+        REM["Reminder Scheduler / node-cron"]
+    end
+
+    DB[("MongoDB Atlas")]
+
+    AIP["AI Provider"]
+    MAIL["Email Provider"]
+
+    U --> UI
+    UI --> ROUTER
+    UI --> THEME
+    UI --> API
+
+    API -->|"HTTPS / REST"| SERVER
+    SERVER --> CORS
+    CORS --> ROUTES
+    ROUTES --> AUTH
+
+    AUTH --> TASK
+    AUTH --> SUB
+    AUTH --> AI
+    AUTH --> EMAIL
+
+    TASK --> DB
+    SUB --> DB
+
+    AI --> AIP
+    EMAIL --> MAIL
+    REM --> DB
+    REM --> MAIL
+
+    SERVER --> REM
