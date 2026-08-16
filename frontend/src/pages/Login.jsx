@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../services/api";
+import ThemeToggle from "../components/dashboard/ThemeToggle";
 
 function Login() {
   const navigate = useNavigate();
@@ -45,6 +46,8 @@ function Login() {
 
   return (
     <div className="auth-page">
+      <ThemeToggle />
+      
       <div className="auth-card">
         <h1>Smart Task Manager</h1>
 

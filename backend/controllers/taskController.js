@@ -3,7 +3,14 @@ const Task = require("../models/Task");
 // Create a new task
 const createTask = async (req, res) => {
   try {
-    const { title, description, priority, category, dueDate } = req.body;
+    const {
+  title,
+  description,
+  priority,
+  category,
+  dueDate,
+  dueTime
+} = req.body;
 
     if (!title) {
       return res.status(400).json({
@@ -17,6 +24,7 @@ const createTask = async (req, res) => {
       priority,
       category,
       dueDate,
+      dueTime,
       user: req.user.userId
     });
 
@@ -121,8 +129,15 @@ const getTask = async (req, res) => {
 // Update task
 const updateTask = async (req, res) => {
   try {
-    const { title, description, status, priority, category, dueDate } =
-      req.body;
+    const {
+  title,
+  description,
+  status,
+  priority,
+  category,
+  dueDate,
+  dueTime
+} = req.body;
 
     const task = await Task.findOne({
       _id: req.params.id,
@@ -137,10 +152,44 @@ const updateTask = async (req, res) => {
 
     task.title = title ?? task.title;
     task.description = description ?? task.description;
-    task.status = status ?? task.status;
+    if (status !== undefined) {
+  const statusChanged =
+    status !== task.status;
+
+  task.status = status;
+
+  if (
+    statusChanged &&
+    status === "Pending"
+  ) {
+    task.reminderSent = false;
+  }
+}
     task.priority = priority ?? task.priority;
     task.category = category ?? task.category;
-    task.dueDate = dueDate ?? task.dueDate;
+    if (dueDate !== undefined || dueTime !== undefined) {
+  const dueDateChanged =
+    dueDate !== undefined &&
+    String(dueDate || "") !==
+      String(task.dueDate || "");
+
+  const dueTimeChanged =
+    dueTime !== undefined &&
+    String(dueTime || "") !==
+      String(task.dueTime || "");
+
+  if (dueDate !== undefined) {
+    task.dueDate = dueDate;
+  }
+
+  if (dueTime !== undefined) {
+    task.dueTime = dueTime;
+  }
+
+  if (dueDateChanged || dueTimeChanged) {
+    task.reminderSent = false;
+  }
+}
 
     const updatedTask = await task.save();
 

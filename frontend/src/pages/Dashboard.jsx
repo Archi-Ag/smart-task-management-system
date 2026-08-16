@@ -48,6 +48,7 @@ function Dashboard() {
     priority: "Medium",
     category: "Work",
     dueDate: "",
+    dueTime: ""
   });
 
   // =========================
@@ -62,6 +63,7 @@ function Dashboard() {
     priority: "Medium",
     category: "Work",
     dueDate: "",
+    dueTime: ""
   });
 
   // =========================
@@ -286,6 +288,7 @@ function Dashboard() {
       dueDate: task.dueDate
         ? new Date(task.dueDate).toISOString().split("T")[0]
         : "",
+        dueTime: task.dueTime || ""
     });
 
     setError("");

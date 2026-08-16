@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../services/api";
+import ThemeToggle from "../components/dashboard/ThemeToggle";
 
 function Register() {
   const navigate = useNavigate();
@@ -43,6 +44,7 @@ function Register() {
 
   return (
     <div className="auth-page">
+      <ThemeToggle />
       <div className="auth-card">
         <h1>Create Account</h1>
 

@@ -74,6 +74,17 @@ function EditTaskForm({
         />
       </div>
 
+      <div className="form-group">
+  <label>Due Time</label>
+
+  <input
+    type="time"
+    name="dueTime"
+    value={editTask.dueTime || ""}
+    onChange={handleEditChange}
+  />
+</div>
+
       <div className="form-buttons">
         <button
           type="submit"

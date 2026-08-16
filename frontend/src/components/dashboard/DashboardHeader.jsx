@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import ThemeToggle from "./ThemeToggle";
 
 function DashboardHeader({ user, onCreateClick, showCreateForm }) {
   
@@ -26,6 +27,8 @@ function DashboardHeader({ user, onCreateClick, showCreateForm }) {
       <div className="task-header">
         <div className="task-header-content">
           <h2>My Tasks</h2>
+
+          <ThemeToggle />
 
           <button
             type="button"

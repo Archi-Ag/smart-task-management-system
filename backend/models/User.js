@@ -20,7 +20,18 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       minlength: 6
-    }
+    },
+
+    emailReminders: {
+  type: Boolean,
+  default: true
+},
+
+reminderBefore: {
+  type: Number,
+  enum: [0, 15, 30, 60, 1440],
+  default: 60
+}
   },
   {
     timestamps: true

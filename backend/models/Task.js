@@ -37,6 +37,17 @@ const taskSchema = new mongoose.Schema(
       default: null
     },
 
+    dueTime: {
+      type: String,
+      default: null
+    },
+
+
+    reminderSent: {
+      type: Boolean,
+      default: false
+    },
+
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

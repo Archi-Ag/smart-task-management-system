@@ -221,6 +221,17 @@ function CreateTaskForm({
           />
         </div>
 
+        <div className="form-group">
+  <label>Due Time</label>
+
+  <input
+    type="time"
+    name="dueTime"
+    value={newTask.dueTime}
+    onChange={handleChange}
+  />
+</div>
+
         {/* FORM BUTTONS */}
 
         <div className="form-buttons">

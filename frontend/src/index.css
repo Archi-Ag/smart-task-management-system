@@ -104,3 +104,78 @@ input {
   text-decoration: none;
   font-weight: 600;
 }
+
+
+/* ========================================
+   LOGIN & REGISTER DARK MODE
+======================================== */
+
+body.dark-mode .auth-page {
+  background-color: #111827;
+}
+
+body.dark-mode .auth-card {
+  background-color: #1f2937;
+  color: #f9fafb;
+
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
+}
+
+body.dark-mode .auth-card h1 {
+  color: #f9fafb;
+}
+
+body.dark-mode .auth-subtitle {
+  color: #9ca3af;
+}
+
+body.dark-mode .auth-card label {
+  color: #e5e7eb;
+}
+
+body.dark-mode .auth-card input {
+  background-color: #111827;
+  color: #f9fafb;
+  border-color: #374151;
+}
+
+body.dark-mode .auth-card input::placeholder {
+  color: #6b7280;
+}
+
+body.dark-mode .auth-card input:focus {
+  border-color: #6366f1;
+  outline: none;
+}
+
+body.dark-mode .auth-footer {
+  color: #9ca3af;
+}
+
+body.dark-mode .auth-footer a {
+  color: #818cf8;
+}
+
+body.dark-mode .auth-footer a:hover {
+  color: #a5b4fc;
+}
+
+body.dark-mode .error-message {
+  background-color: #450a0a;
+  color: #fca5a5;
+  border-color: #7f1d1d;
+}
+
+/* ========================================
+   AUTH THEME TOGGLE
+======================================== */
+
+.auth-page {
+  position: relative;
+}
+
+.auth-page > .theme-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}

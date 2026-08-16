@@ -708,3 +708,135 @@ textarea.form-input {
   background-color: #dc2626;
   color: white;
 }
+
+
+/* ========================================
+   THEME TOGGLE
+======================================== */
+
+.theme-toggle {
+  padding: 10px 16px;
+
+  border: 1px solid #d1d5db;
+  border-radius: 7px;
+
+  background-color: white;
+  color: #374151;
+
+  cursor: pointer;
+  font-weight: 600;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.theme-toggle:hover {
+  background-color: #f3f4f6;
+}
+
+
+/* ========================================
+   DARK MODE
+======================================== */
+
+body.dark-mode {
+  background-color: #111827;
+  color: #f9fafb;
+}
+
+body.dark-mode .dashboard-container {
+  background-color: #111827;
+}
+
+body.dark-mode .dashboard-header {
+  background-color: #1f2937;
+  color: #f9fafb;
+}
+
+body.dark-mode .stat-card {
+  background-color: #1f2937;
+  border-color: #374151;
+  color: #f9fafb;
+}
+
+body.dark-mode .stat-card h4 {
+  color: #9ca3af;
+}
+
+body.dark-mode .stat-card p {
+  color: #f9fafb;
+}
+
+body.dark-mode .task-card {
+  background-color: #1f2937;
+  border-color: #374151;
+  color: #f9fafb;
+}
+
+body.dark-mode .task-card h3 {
+  color: #f9fafb;
+}
+
+body.dark-mode .task-card.task-completed {
+  background-color: #17202b;
+}
+
+body.dark-mode .task-card.task-completed h3 {
+  color: #9ca3af;
+}
+
+body.dark-mode .task-description {
+  color: #d1d5db;
+}
+
+body.dark-mode .task-details strong {
+  color: #9ca3af;
+}
+
+body.dark-mode .category-badge {
+  background-color: #374151;
+  color: #e5e7eb;
+}
+
+body.dark-mode .empty-state {
+  background-color: #1f2937;
+  color: #f9fafb;
+}
+
+body.dark-mode .empty-state h3 {
+  color: #f9fafb;
+}
+
+body.dark-mode .empty-state p {
+  color: #9ca3af;
+}
+
+body.dark-mode .ai-generator {
+  background-color: #111827;
+  border-color: #374151;
+}
+
+body.dark-mode .ai-generator label {
+  color: #f9fafb;
+}
+
+body.dark-mode .ai-divider {
+  color: #9ca3af;
+}
+
+body.dark-mode .ai-divider::before,
+body.dark-mode .ai-divider::after {
+  background-color: #374151;
+}
+
+body.dark-mode .theme-toggle {
+  background-color: #374151;
+  border-color: #4b5563;
+  color: #f9fafb;
+}
+
+body.dark-mode .theme-toggle:hover {
+  background-color: #4b5563;
+}
