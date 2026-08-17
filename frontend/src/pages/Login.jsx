@@ -29,11 +29,12 @@ function Login() {
 
     try {
       const response = await api.post("/auth/login", formData);
-
+  
       localStorage.setItem("token", response.data.token);
+      // console.log(localStorage.getItem("token"));
       localStorage.setItem("user", JSON.stringify(response.data.user));
 
-      navigate("/overview", { replace: true });
+      navigate("/dashboard", { replace: true });
     } catch (error) {
       setError(
         error.response?.data?.message ||
