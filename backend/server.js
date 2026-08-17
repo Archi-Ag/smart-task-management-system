@@ -25,19 +25,20 @@ const app = express();
 // ===============================
 // CORS
 // ===============================
-app.use(cors({
-  origin: [
-    "https://smart-task-management-system-h88wz6rch-archi-ags-projects.vercel.app"
-  ],
-  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"]
-}));
+// app.use(cors({
+//   // origin: [
+//   //   "https://smart-task-management-system-h88wz6rch-archi-ags-projects.vercel.app"
+//   // ],
+//   origin: "*",
+//   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+//   allowedHeaders: ["Content-Type", "Authorization"]
+// }));
 
-// app.use(
-//   cors({
-//     origin: "*"
-//   })
-// );
+app.use(
+  cors({
+    origin: "*"
+  })
+);
 
 // ===============================
 // JSON

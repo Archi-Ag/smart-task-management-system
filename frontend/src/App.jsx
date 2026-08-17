@@ -63,8 +63,10 @@ function App() {
         />
 
         {/* MAIN APP */}
+        
+        <Route path="/dashboard" element={<Overview />} />
 
-        <Route
+        {/* <Route
           path="/dashboard"
           element={
             token ? (
@@ -76,7 +78,7 @@ function App() {
               />
             )
           }
-        />
+        /> */}
 
         <Route
           path="/tasks"
